@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MainController {
+
     public SpriteRenderer sr;
     public Rigidbody2D rb;
     private Color yellow, blue, red, purple, green;
@@ -13,12 +14,16 @@ public class PlayerController : MainController {
     public bool isPossesing;
     public BoxCollider2D bx;
     private float characterSpeed = 7f;
-
     public KeyCode up, down, left, right, possess, unpossess, atk1, atk2;
+    private int hp = 20;
+    private int curhp;
+    public bool isDead= false;
 
     // Use this for initialization
     void Start()
     {
+        curhp = maxHealth;
+        curhealth = maxHealth;
         moveSpeed = 7f;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
@@ -35,18 +40,33 @@ public class PlayerController : MainController {
     void Update()
     {
         Moving();
-
+        Dead();
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            DamageSim();
+        }
+        
         if (isPossesing)
         {
             PossessingEnemy();
-
+            curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
             if(Input.GetKeyDown(unpossess))
             {
                 Unpossess();
             }
+
+            if (Input.GetKeyDown(atk1))
+            {
+                Debug.Log("Player used: " + hit.collider.gameObject.GetComponent<MoveScript>().Attack1(hit.collider.gameObject.GetComponent<MoveScript>().at1));
+            }
+            if (Input.GetKeyDown(atk2))
+            {
+                Debug.Log("Player used: " + hit.collider.gameObject.GetComponent<MoveScript>().Attack2(hit.collider.gameObject.GetComponent<MoveScript>().at2));
+            }
         }
         else
         {
+            curhealth = curhp;
             if (Input.GetKeyDown(possess) && objInSight && !isPossesing)
             {
                 hit.collider.gameObject.transform.SetParent(this.transform);
@@ -55,6 +75,15 @@ public class PlayerController : MainController {
                 isPossesing = true;
                 bx.enabled = false;
                 moveSpeed = hit.collider.gameObject.GetComponent<MoveScript>().moveSpeed;
+                curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
+            }
+            if(Input.GetKeyDown(atk1))
+            {
+                Debug.Log("Player used: " + at1);
+            }
+            if (Input.GetKeyDown(atk2))
+            {
+                Debug.Log("Player used: " + at2);
             }
         }
     }
@@ -109,6 +138,49 @@ public class PlayerController : MainController {
         sr.enabled = true;
         bx.enabled = true;
         moveSpeed = characterSpeed;
+        curhealth = curhp;
+    }
+
+    public int DamagePlayer(int dmg)
+    {
+        if (isDead)
+        {
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            if (isPossesing)
+            {
+                hit.collider.gameObject.GetComponent<MoveScript>().curhealth -= dmg;
+            }
+            else
+            {
+                curhp -= dmg;
+            }
+        }
+
+        return curhp;
+    }
+
+    public void Dead()
+    {
+        if(curhp <= 0)
+        {
+            isDead = true;
+            Debug.Log("player died");
+        }
+        else
+        {
+            isDead = false;
+            Debug.Log("player has not died");
+        }
+
+        
+    }
+
+    public void DamageSim()
+    {
+        DamagePlayer(5);
     }
 
 }

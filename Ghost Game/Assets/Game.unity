@@ -139,6 +139,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  curhealth: 0
+  maxHealth: 60
+  at1: Toxic Gas
+  at2: Smoke Screen
+  p: {fileID: 0}
 --- !u!50 &208210933
 Rigidbody2D:
   serializedVersion: 4
@@ -366,6 +371,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  curhealth: 0
+  maxHealth: 70
+  at1: Sword Slash
+  at2: Arrows
+  p: {fileID: 0}
 --- !u!1 &1510334684
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,6 +594,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
+  curhealth: 0
+  maxHealth: 20
+  at1: Scare Tactic
+  at2: Slash
   sr: {fileID: 0}
   rb: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
@@ -599,6 +613,7 @@ MonoBehaviour:
   unpossess: 107
   atk1: 117
   atk2: 105
+  isDead: 0
 --- !u!1 &2123505196
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +645,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  curhealth: 0
+  maxHealth: 40
+  at1: Electrocute
+  at2: Zap
+  p: {fileID: 1633507851}
 --- !u!50 &2123505198
 Rigidbody2D:
   serializedVersion: 4
