@@ -12,6 +12,7 @@ public class PlayerController : MainController {
     public float length = 3f;
     public bool isPossesing;
     public BoxCollider2D bx;
+    private float characterSpeed = 7f;
 
     public KeyCode up, down, left, right, possess, unpossess, atk1, atk2;
 
@@ -33,11 +34,52 @@ public class PlayerController : MainController {
     // Update is called once per frame
     void Update()
     {
+        Moving();
+
         if (isPossesing)
         {
-            hit.collider.gameObject.transform.position = this.transform.position;
-        }
+            PossessingEnemy();
 
+            if(Input.GetKeyDown(unpossess))
+            {
+                Unpossess();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(possess) && objInSight && !isPossesing)
+            {
+                hit.collider.gameObject.transform.SetParent(this.transform);
+                hit.collider.gameObject.transform.position = this.transform.position;
+                sr.enabled = false;
+                isPossesing = true;
+                bx.enabled = false;
+                moveSpeed = hit.collider.gameObject.GetComponent<MoveScript>().moveSpeed;
+            }
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        Debug.DrawLine(this.transform.position, direction, Color.cyan);
+        if (Physics2D.Linecast(this.transform.position, direction, 1 << LayerMask.NameToLayer("obj")))
+        {
+            hit = Physics2D.Linecast(this.transform.position, direction, 1 << LayerMask.NameToLayer("obj"));
+            objInSight = true;
+        }
+        else
+        {
+            objInSight = false;
+        }
+    }
+
+    public void PossessingEnemy()
+    {
+        hit.collider.gameObject.transform.position = this.transform.position;
+    }
+
+    public void Moving()
+    {
         if (Input.GetKey(up))
         {
             direction = new Vector3(this.transform.position.x, this.transform.position.y + length, 0);
@@ -58,60 +100,15 @@ public class PlayerController : MainController {
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
             direction = new Vector3(this.transform.position.x + length, this.transform.position.y, 0);
         }
-
-        if (isPossesing)
-        {
-            if (Input.GetKeyDown(atk1))
-            {
-
-            }
-            if (Input.GetKeyDown(atk2))
-            {
-
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(atk1))
-            {
-                Debug.Log("attacking as a ghost, atk1");
-            }
-            if (Input.GetKeyDown(atk2))
-            {
-                Debug.Log("attacking as a ghost, atk2");
-            }
-        }
     }
 
-    public void FixedUpdate()
+    public void Unpossess()
     {
-        Debug.DrawLine(this.transform.position, direction, Color.cyan);
-        if (Physics2D.Linecast(this.transform.position, direction, 1 << LayerMask.NameToLayer("obj")))
-        {
-            hit = Physics2D.Linecast(this.transform.position, direction, 1 << LayerMask.NameToLayer("obj"));
-            objInSight = true;
-        }
-        else
-        {
-            objInSight = false;
-            sr.color = purple;
-        }
-        if (Input.GetKeyDown(possess) && objInSight && !isPossesing)
-        {
-            hit.collider.gameObject.transform.SetParent(this.transform);
-            hit.collider.gameObject.transform.position = this.transform.position;
-            sr.enabled = false;
-            isPossesing = true;
-            bx.enabled = false;
-            moveSpeed = hit.collider.gameObject.GetComponent<MoveScript>().moveSpeed;
-        }
-        if (Input.GetKeyDown(unpossess))
-        {
-            transform.DetachChildren();
-            isPossesing = false;
-            sr.enabled = true;
-            bx.enabled = true;
-            moveSpeed = 7f;
-        }
+        transform.DetachChildren();
+        isPossesing = false;
+        sr.enabled = true;
+        bx.enabled = true;
+        moveSpeed = characterSpeed;
     }
+
 }
