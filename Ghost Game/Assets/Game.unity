@@ -143,6 +143,7 @@ MonoBehaviour:
   maxHealth: 60
   at1: Toxic Gas
   at2: Smoke Screen
+  weight: 30
   p: {fileID: 0}
 --- !u!50 &208210933
 Rigidbody2D:
@@ -375,6 +376,93 @@ MonoBehaviour:
   maxHealth: 70
   at1: Sword Slash
   at2: Arrows
+  weight: 80
+  p: {fileID: 0}
+--- !u!1 &971613323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 971613325}
+  - component: {fileID: 971613324}
+  - component: {fileID: 971613326}
+  - component: {fileID: 971613327}
+  m_Layer: 0
+  m_Name: windzone
+  m_TagString: windArea
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &971613324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971613323}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe8cc9de65d8f34ca960a1b33c2f143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Direction: 0
+  go: {fileID: 0}
+  force: 30
+  vec: {x: 0, y: 0}
+  p: {fileID: 0}
+--- !u!4 &971613325
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971613323}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &971613326
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971613323}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &971613327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971613323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab27a4354b21d0f4ca39aa8e3665353e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 3
+  direction: {x: 0, y: 1}
   p: {fileID: 0}
 --- !u!1 &1510334684
 GameObject:
@@ -598,6 +686,7 @@ MonoBehaviour:
   maxHealth: 20
   at1: Scare Tactic
   at2: Slash
+  weight: 0
   sr: {fileID: 0}
   rb: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
@@ -614,6 +703,10 @@ MonoBehaviour:
   atk1: 117
   atk2: 105
   isDead: 0
+  move: 
+  pm: {fileID: 0}
+  inWindZone: 0
+  windZone: {fileID: 0}
 --- !u!1 &2123505196
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +742,7 @@ MonoBehaviour:
   maxHealth: 40
   at1: Electrocute
   at2: Zap
+  weight: 15
   p: {fileID: 1633507851}
 --- !u!50 &2123505198
 Rigidbody2D:

@@ -7,6 +7,7 @@ public class MainController : MonoBehaviour {
     public float moveSpeed;
     public int curhealth, maxHealth;
     public string at1, at2;
+    public int weight;
 
 	public virtual void Attack1()
     {

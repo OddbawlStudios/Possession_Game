@@ -18,10 +18,15 @@ public class PlayerController : MainController {
     private int hp = 20;
     private int curhp;
     public bool isDead= false;
+    public string move;
+    public PauseManager pm;
+    public bool inWindZone = false;
+    public GameObject windZone;
 
     // Use this for initialization
     void Start()
     {
+        pm = gameObject.GetComponent<PauseManager>();
         curhp = maxHealth;
         curhealth = maxHealth;
         moveSpeed = 7f;
@@ -34,11 +39,13 @@ public class PlayerController : MainController {
         purple = new Color(1f, 0f, 1f);
         sr.color = purple;
         bx = GetComponent<BoxCollider2D>();
+        weight = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         Moving();
         Dead();
         if (Input.GetKeyDown(KeyCode.Q))
@@ -57,10 +64,12 @@ public class PlayerController : MainController {
 
             if (Input.GetKeyDown(atk1))
             {
+                move = hit.collider.gameObject.GetComponent<MoveScript>().Attack1(hit.collider.gameObject.GetComponent<MoveScript>().at1);
                 Debug.Log("Player used: " + hit.collider.gameObject.GetComponent<MoveScript>().Attack1(hit.collider.gameObject.GetComponent<MoveScript>().at1));
             }
             if (Input.GetKeyDown(atk2))
             {
+                move = hit.collider.gameObject.GetComponent<MoveScript>().Attack2(hit.collider.gameObject.GetComponent<MoveScript>().at2);
                 Debug.Log("Player used: " + hit.collider.gameObject.GetComponent<MoveScript>().Attack2(hit.collider.gameObject.GetComponent<MoveScript>().at2));
             }
         }
@@ -69,6 +78,7 @@ public class PlayerController : MainController {
             curhealth = curhp;
             if (Input.GetKeyDown(possess) && objInSight && !isPossesing)
             {
+                hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 hit.collider.gameObject.transform.SetParent(this.transform);
                 hit.collider.gameObject.transform.position = this.transform.position;
                 sr.enabled = false;
@@ -76,13 +86,16 @@ public class PlayerController : MainController {
                 bx.enabled = false;
                 moveSpeed = hit.collider.gameObject.GetComponent<MoveScript>().moveSpeed;
                 curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
+                weight = hit.collider.gameObject.GetComponent<MoveScript>().weight;
             }
             if(Input.GetKeyDown(atk1))
             {
+                move = at1;
                 Debug.Log("Player used: " + at1);
             }
             if (Input.GetKeyDown(atk2))
             {
+                move = at2;
                 Debug.Log("Player used: " + at2);
             }
         }
@@ -99,6 +112,11 @@ public class PlayerController : MainController {
         else
         {
             objInSight = false;
+        }
+
+        if (inWindZone)
+        {
+            this.gameObject.transform.Translate(windZone.GetComponent<WindArea>().direction.x, windZone.GetComponent<WindArea>().direction.y,0);
         }
     }
 
@@ -136,9 +154,10 @@ public class PlayerController : MainController {
         transform.DetachChildren();
         isPossesing = false;
         sr.enabled = true;
-        bx.enabled = true;
+        hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         moveSpeed = characterSpeed;
         curhealth = curhp;
+        weight = 1;
     }
 
     public int DamagePlayer(int dmg)
