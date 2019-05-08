@@ -83,7 +83,7 @@ public class PlayerController : MainController {
                 hit.collider.gameObject.transform.position = this.transform.position;
                 sr.enabled = false;
                 isPossesing = true;
-                bx.enabled = false;
+                //bx.enabled = false;
                 moveSpeed = hit.collider.gameObject.GetComponent<MoveScript>().moveSpeed;
                 curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
                 weight = hit.collider.gameObject.GetComponent<MoveScript>().weight;
@@ -151,10 +151,10 @@ public class PlayerController : MainController {
 
     public void Unpossess()
     {
+        hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         transform.DetachChildren();
         isPossesing = false;
         sr.enabled = true;
-        hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         moveSpeed = characterSpeed;
         curhealth = curhp;
         weight = 1;
