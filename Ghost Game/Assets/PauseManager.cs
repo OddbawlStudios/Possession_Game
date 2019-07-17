@@ -18,7 +18,7 @@ public class PauseManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        curhp.text = "HP: " + player.GetComponent<PlayerController>().curhealth + " / " + player.GetComponent<PlayerController>().maxHealth;
+        curhp.text = "HP: " + player.GetComponent<PlayerController>().tempHp + " / " + player.GetComponent<PlayerController>().tempMax;
         speed.text = "Speed: " + player.GetComponent<PlayerController>().moveSpeed;
         moveUsed.text = "Move Used: " + player.GetComponent<PlayerController>().move;
         EnablePause();

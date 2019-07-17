@@ -11,13 +11,16 @@ public class MoveScript : MainController {
 
     public void Start()
     {
-        
+        maxHealth = 35;
         curhealth = maxHealth;
     }
 
     public void Update()
     {
-        HealthManager();
+        if (gameObject.GetComponentInParent<PlayerController>().isPossesing)
+        {
+            HealthManager();
+        }
     }
 
     public string Attack1(string attack1)

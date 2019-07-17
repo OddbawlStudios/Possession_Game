@@ -17,6 +17,7 @@ public class PlayerController : MainController {
     public KeyCode up, down, left, right, possess, unpossess, atk1, atk2;
     private int hp = 20;
     private int curhp;
+    public int tempHp, tempMax;
     public bool isDead= false;
     public string move;
     public PauseManager pm;
@@ -27,8 +28,8 @@ public class PlayerController : MainController {
     void Start()
     {
         pm = gameObject.GetComponent<PauseManager>();
+        maxHealth = 20;
         curhp = maxHealth;
-        curhealth = maxHealth;
         moveSpeed = 7f;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
@@ -56,7 +57,8 @@ public class PlayerController : MainController {
         if (isPossesing)
         {
             PossessingEnemy();
-            curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
+            tempHp = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
+            tempMax = hit.collider.gameObject.GetComponent<MoveScript>().maxHealth;
             if(Input.GetKeyDown(unpossess))
             {
                 Unpossess();
@@ -75,7 +77,8 @@ public class PlayerController : MainController {
         }
         else
         {
-            curhealth = curhp;
+            tempHp = curhp;
+            tempMax = maxHealth;
             if (Input.GetKeyDown(possess) && objInSight && !isPossesing)
             {
                 hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = false;
