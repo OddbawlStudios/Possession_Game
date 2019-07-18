@@ -17,10 +17,10 @@ public class MoveScript : MainController {
 
     public void Update()
     {
-        if (gameObject.GetComponentInParent<PlayerController>().isPossesing)
+     /*   if (gameObject.GetComponentInParent<PlayerController>().isPossesing)
         {
             HealthManager();
-        }
+        }*/
     }
 
     public string Attack1(string attack1)

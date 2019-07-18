@@ -23,6 +23,8 @@ public class PlayerController : MainController {
     public PauseManager pm;
     public bool inWindZone = false;
     public GameObject windZone;
+    public enum Direction {N,E,S,W};
+    public Direction dir;
 
     // Use this for initialization
     void Start()
@@ -46,7 +48,9 @@ public class PlayerController : MainController {
     // Update is called once per frame
     void Update()
     {
-        
+
+        Debug.Log(rb.velocity);
+           
         Moving();
         Dead();
         if (Input.GetKeyDown(KeyCode.Q))
@@ -132,21 +136,25 @@ public class PlayerController : MainController {
     {
         if (Input.GetKey(up))
         {
+            dir = Direction.N;
             direction = new Vector3(this.transform.position.x, this.transform.position.y + length, 0);
             transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
         }
         if (Input.GetKey(down))
         {
+            dir = Direction.S;
             direction = new Vector3(this.transform.position.x, this.transform.position.y + -length, 0);
             transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
         }
         if (Input.GetKey(left))
         {
+            dir = Direction.W;
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
             direction = new Vector3(this.transform.position.x + -length, this.transform.position.y, 0);
         }
         if (Input.GetKey(right))
         {
+            dir = Direction.E;
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
             direction = new Vector3(this.transform.position.x + length, this.transform.position.y, 0);
         }
