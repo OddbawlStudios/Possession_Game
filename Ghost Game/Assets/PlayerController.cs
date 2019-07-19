@@ -25,6 +25,8 @@ public class PlayerController : MainController {
     public GameObject windZone;
     public enum Direction {N,E,S,W};
     public Direction dir;
+    public int dMod;
+    public int Dmg;
 
     // Use this for initialization
     void Start()
@@ -61,8 +63,6 @@ public class PlayerController : MainController {
         if (isPossesing)
         {
             PossessingEnemy();
-            tempHp = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
-            tempMax = hit.collider.gameObject.GetComponent<MoveScript>().maxHealth;
             if(Input.GetKeyDown(unpossess))
             {
                 Unpossess();
@@ -130,6 +130,9 @@ public class PlayerController : MainController {
     public void PossessingEnemy()
     {
         hit.collider.gameObject.transform.position = this.transform.position;
+        dMod = hit.collider.gameObject.GetComponent<MoveScript>().DamageMod;
+        tempHp = hit.collider.gameObject.GetComponent<MoveScript>().curhealth;
+        tempMax = hit.collider.gameObject.GetComponent<MoveScript>().maxHealth;
     }
 
     public void Moving()
@@ -163,7 +166,11 @@ public class PlayerController : MainController {
     public void Unpossess()
     {
         hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = true;
-        transform.DetachChildren();
+
+        if (transform.GetComponentInChildren<eyes>().tag != "Eyes")
+        {
+            transform.DetachChildren();
+        }
         isPossesing = false;
         sr.enabled = true;
         moveSpeed = characterSpeed;
@@ -181,7 +188,13 @@ public class PlayerController : MainController {
         {
             if (isPossesing)
             {
-                hit.collider.gameObject.GetComponent<MoveScript>().curhealth -= dmg;
+                Dmg = dmg - dMod;
+                if(Dmg < 1)
+                {
+                    Dmg = 1;
+                }
+                hit.collider.gameObject.GetComponent<MoveScript>().curhealth = hit.collider.gameObject.GetComponent<MoveScript>().curhealth -= Dmg;
+                Mathf.Clamp(Dmg, 1, Mathf.Infinity);
             }
             else
             {
@@ -206,6 +219,12 @@ public class PlayerController : MainController {
         }
 
         
+    }
+
+    public int DamageModifier(int dmgmod)
+    {
+        dMod = dmgmod;
+        return dmgmod;
     }
 
     public void DamageSim()

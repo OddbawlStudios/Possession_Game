@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveScript : MainController {
 
     public PlayerController p;
+    public int DamageMod;
 
     //this class is to build enemy stats based around enemies themselves
     //meaning they have their own attack strength, health, and movement speed
