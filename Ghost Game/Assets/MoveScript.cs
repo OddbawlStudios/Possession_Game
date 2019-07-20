@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveScript : MainController {
+public class MoveScript : MonoBehaviour
+{
 
-    public PlayerController p;
+    public int maxHealth, curhealth;
+    public string at1, at2;
+    public PossessManager p;
     public int DamageMod;
+    public BoxCollider2D box;
+    public float moveSpeed;
+    public int weight;
 
     //this class is to build enemy stats based around enemies themselves
     //meaning they have their own attack strength, health, and movement speed
@@ -14,14 +20,12 @@ public class MoveScript : MainController {
     {
         maxHealth = 35;
         curhealth = maxHealth;
+        box = GetComponent<BoxCollider2D>();
     }
 
     public void Update()
     {
-     /*   if (gameObject.GetComponentInParent<PlayerController>().isPossesing)
-        {
-            HealthManager();
-        }*/
+            HealthManager(); 
     }
 
     public string Attack1(string attack1)
@@ -40,12 +44,18 @@ public class MoveScript : MainController {
 
     public void HealthManager()
     {
-        p = gameObject.GetComponentInParent<PlayerController>();
+        p = GetComponentInParent<PossessManager>();
         if (curhealth <= 0)
         {
             p.Unpossess();
             Destroy(this.gameObject, .2f);
         }
+    }
+
+    public void Detach()
+    {
+        this.gameObject.transform.SetParent(null);
+        box.enabled = true;
     }
 
 }

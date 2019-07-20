@@ -6,7 +6,6 @@ public class PlayerController : MainController {
 
     public SpriteRenderer sr;
     public Rigidbody2D rb;
-    private Color yellow, blue, red, purple, green;
     public Vector3 direction;
     RaycastHit2D hit;
     public bool objInSight = false;
@@ -37,12 +36,6 @@ public class PlayerController : MainController {
         moveSpeed = 7f;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        yellow = new Color();
-        red = new Color(1f, 0f, 0f);
-        blue = new Color(0f, 0f, 1f);
-        green = new Color(0f, 1f, 0f);
-        purple = new Color(1f, 0f, 1f);
-        sr.color = purple;
         bx = GetComponent<BoxCollider2D>();
         weight = 1;
     }
@@ -165,12 +158,8 @@ public class PlayerController : MainController {
 
     public void Unpossess()
     {
+        hit.collider.gameObject.GetComponent<MoveScript>().Detach();
         hit.collider.gameObject.GetComponent<BoxCollider2D>().enabled = true;
-
-        if (transform.GetComponentInChildren<eyes>().tag != "Eyes")
-        {
-            transform.DetachChildren();
-        }
         isPossesing = false;
         sr.enabled = true;
         moveSpeed = characterSpeed;

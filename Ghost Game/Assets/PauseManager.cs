@@ -28,8 +28,8 @@ public class PauseManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        curhp.text = "HP: " + player.GetComponent<PlayerController>().tempHp + " / " + player.GetComponent<PlayerController>().tempMax;
-        //speed.text = "Speed: " + player.GetComponent<PlayerController>().moveSpeed;
+        curhp.text = "HP: " + player.GetComponent<HealthManager>().tempHP + " / " + player.GetComponent<HealthManager>().tempMax;
+        //speed.text = "Speed: " + player.GetComponent<Moving>().moveSpeed;
         //moveUsed.text = "Move Used: " + player.GetComponent<PlayerController>().move;
         EnablePause();
         if(Input.GetKeyDown(KeyCode.T))
