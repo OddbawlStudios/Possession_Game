@@ -12,6 +12,8 @@ public class PossessManager : MonoBehaviour {
     public KeyCode pose, unp;
     private BoxCollider2D b;
     private SpriteRenderer sr;
+    [SerializeField]
+    private Vector3 oldPos;
 
     public int dmod;
 
@@ -25,6 +27,7 @@ public class PossessManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Input.GetKeyDown(pose) && objInSight && !isPossesing)
         {
             posses = hit.collider.gameObject.GetComponent<MoveScript>();
@@ -49,16 +52,16 @@ public class PossessManager : MonoBehaviour {
 
     public void FixedUpdate()
     {
-        Debug.DrawLine(this.transform.position, m.direction, Color.cyan);
-        if (Physics2D.Linecast(this.transform.position, m.direction, 1 << LayerMask.NameToLayer("obj")))
-        {
-            hit = Physics2D.Linecast(this.transform.position, m.direction, 1 << LayerMask.NameToLayer("obj"));
-            objInSight = true;
-        }
-        else
-        {
-            objInSight = false;
-        }
+            Debug.DrawLine(this.transform.position, m.direction, Color.cyan);
+            if (Physics2D.Linecast(this.transform.position, m.direction, 1 << LayerMask.NameToLayer("obj")))
+            {
+                hit = Physics2D.Linecast(this.transform.position, m.direction, 1 << LayerMask.NameToLayer("obj"));
+                objInSight = true;
+            }
+            else
+            {
+                objInSight = false;
+            }
     }
 
     public void Possess()

@@ -6,24 +6,37 @@ public class Wind : MonoBehaviour {
 
     [SerializeField]
     private AreaEffector2D ae;
-
+    private float speed;
+    [SerializeField]
+    private float xMove, yMove;
+    private Rigidbody2D rb;
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.GetComponent<Rigidbody2D>().mass > 10)
+        /*if(col.gameObject.GetComponent<Rigidbody2D>().mass > 10)
         {
             ae.enabled = false;
-        }else
+        }
+        else
         {
             ae.enabled = true;
-        }
+        }*/
     }
 
     public void OnTriggerStay2D(Collider2D col)
     {
-        col.GetComponent<Rigidbody2D>().AddForce(-Vector2.right * 20000 * Time.deltaTime);
-
-        /*Debug.Log("Player is in trigger");
+        Moving move;
+        Transform t;
+        Vector3 vec;
+        t = col.GetComponent<Transform>();
+        rb = col.GetComponent<Rigidbody2D>();
+        vec = new Vector3(xMove * Time.deltaTime,yMove * Time.deltaTime, 0f);
+        if (rb.mass <= 4)
+        {
+            t.position += vec;
+        }
+        /*
+        Debug.Log("Player is in trigger");
         Vector3 position = transform.position;
         Vector3 targetPosition = col.transform.position;
         Vector3 direction = targetPosition - position;
@@ -35,7 +48,11 @@ public class Wind : MonoBehaviour {
 
     public void OnTriggerExit2D(Collider2D col)
     {
-        col.gameObject.GetComponent<Rigidbody2D>().velocity.Set(0f,0f);
+        Transform t;
+        Vector3 vec;
+        t = col.gameObject.GetComponent<Transform>();
+        vec = new Vector3(t.position.x, t.position.y, 0f);
+        t.position = vec;
     }
 
 }

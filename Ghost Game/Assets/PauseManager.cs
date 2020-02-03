@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PauseManager : MonoBehaviour {
 
     public bool paused;
-    public Text curhp, speed, moveUsed, R,G,B;
+    public Text curhp, speed, moveUsed, R, G, B;
     public GameObject player;
     public GameObject canvas;
 
@@ -21,24 +21,65 @@ public class PauseManager : MonoBehaviour {
 
     public Vector4 co;
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    [SerializeField]
+    private enum menus { main, one, two, three };
+    [SerializeField]
+    private menus menu;
+    public GameObject mainMenu, menuOne, menuTwo, menuThree;
+
+
+    // Use this for initialization
+    void Start() {
+        menu = menus.main;
+    }
+
+    // Update is called once per frame
+    void Update() {
         curhp.text = "HP: " + player.GetComponent<HealthManager>().tempHP + " / " + player.GetComponent<HealthManager>().tempMax;
         //speed.text = "Speed: " + player.GetComponent<Moving>().moveSpeed;
         //moveUsed.text = "Move Used: " + player.GetComponent<PlayerController>().move;
         EnablePause();
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             paused = !paused;
+            if(paused)
+            {
+                menu = menus.main;
+            }
         }
 
-        if(paused)
+        if (paused)
         {
+
+            switch(menu)
+            {
+                case menus.main:
+                    mainMenu.SetActive(true);
+                    menuOne.SetActive(false);
+                    menuTwo.SetActive(false);
+                    menuThree.SetActive(false);
+                    break;
+                case menus.one:
+                    mainMenu.SetActive(false);
+                    menuOne.SetActive(true);
+                    menuTwo.SetActive(false);
+                    menuThree.SetActive(false);
+                    break;
+                case menus.two:
+                    mainMenu.SetActive(false);
+                    menuOne.SetActive(false);
+                    menuTwo.SetActive(true);
+                    menuThree.SetActive(false);
+                    break;
+                case menus.three:
+                    mainMenu.SetActive(false);
+                    menuOne.SetActive(false);
+                    menuTwo.SetActive(false);
+                    menuThree.SetActive(true);
+                    break;
+            }
+
+
             Counter();
             R.text = "R: " + rValue.ToString();
             G.text = "G: " + gValue.ToString();
@@ -48,6 +89,33 @@ public class PauseManager : MonoBehaviour {
 
         }
 
+    }
+
+    public void BackButton()
+    {
+        if (menu == menus.main)
+        {
+            paused = !paused;
+        }
+        else
+        {
+            menu = menus.main;
+        }
+    }
+
+    public void Option1()
+    {
+        menu = menus.one;
+    }
+
+    public void Option2()
+    {
+        menu = menus.two;
+    }
+
+    public void Option3()
+    {
+        menu = menus.three;
     }
 
     public void EnablePause()

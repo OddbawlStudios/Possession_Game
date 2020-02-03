@@ -20,12 +20,22 @@ public class PlayerController : MainController {
     public bool isDead= false;
     public string move;
     public PauseManager pm;
-    public bool inWindZone = false;
-    public GameObject windZone;
+    //public bool inWindZone = false;
+    //public GameObject windZone;
     public enum Direction {N,E,S,W};
     public Direction dir;
     public int dMod;
     public int Dmg;
+
+    //ghost info
+    private int gHP, gMHP;
+    private string gATK1, gATK2;
+    private float gMoveSpeed;
+
+    //possess info
+    private int pHP, pMHP;
+    private string pATK1, pATK2;
+    private float pMoveSpeed;
 
     // Use this for initialization
     void Start()
@@ -114,10 +124,10 @@ public class PlayerController : MainController {
             objInSight = false;
         }
 
-        if (inWindZone)
+        /*if (inWindZone)
         {
             this.gameObject.transform.Translate(windZone.GetComponent<WindArea>().direction.x, windZone.GetComponent<WindArea>().direction.y,0);
-        }
+        }*/
     }
 
     public void PossessingEnemy()
@@ -219,6 +229,20 @@ public class PlayerController : MainController {
     public void DamageSim()
     {
         DamagePlayer(5);
+    }
+
+    private void PossessInfo()
+    {
+        
+    }
+
+    private void GhostInfo()
+    {
+        gMHP = 20;
+        gHP = gMHP;
+        gMoveSpeed = 7f;
+        //gATK1 =
+        //gATK2 = 
     }
 
 }
