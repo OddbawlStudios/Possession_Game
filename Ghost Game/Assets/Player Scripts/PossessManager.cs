@@ -15,7 +15,7 @@ public class PossessManager : MonoBehaviour {
     [SerializeField]
     private Vector3 oldPos;
 
-    public int dmod;
+    public int dmod, tempDmod;
 
     // Use this for initialization
     void Start () {
@@ -71,16 +71,21 @@ public class PossessManager : MonoBehaviour {
         sr.enabled = false;
         posses.transform.SetParent(this.transform);
         posses.transform.position = this.transform.position;
-        dmod = posses.DamageMod;
+        tempDmod = posses.DamageMod;
         posses.box.enabled = false;
     }
 
     public void Unpossess()
     {
+        if(posses)
+        {
+        posses.Detach();
+        }
         isPossesing = false;
         b.enabled = true;
         sr.enabled = true;
-        posses.Detach();
+        tempDmod = dmod;
+        posses = null;
     }
 
 }
