@@ -70,16 +70,19 @@ public class PossessManager : MonoBehaviour {
         b.enabled = false;
         sr.enabled = false;
         posses.transform.SetParent(this.transform);
-        posses.transform.position = this.transform.position;
+        posses.GetComponent<EnemyBehaviour>().player = this.gameObject;
         tempDmod = posses.DamageMod;
         posses.box.enabled = false;
+        posses.GetComponent<EnemyBehaviour>().isPossessed = true;
     }
 
     public void Unpossess()
     {
         if(posses)
         {
-        posses.Detach();
+            posses.Detach();
+            posses.GetComponent<EnemyBehaviour>().isPossessed = false;
+            posses.GetComponent<EnemyBehaviour>().player = null;
         }
         isPossesing = false;
         b.enabled = true;
